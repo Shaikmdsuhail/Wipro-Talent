@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Number Magic</title>
+  <style>
+    :root {
+      --primary: #6c5ce7;
+      --secondary: #a29bfe;
+      --dark: #2d3436;
+      --light: #f5f6fa;
+      --success: #00b894;
+      --warning: #fdcb6e;
+      --danger: #d63031;
+      --info: #0984e3;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+      color: var(--dark);
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+    
+    h1 {
+      text-align: center;
+      color: var(--primary);
+      margin-bottom: 30px;
+      font-size: 2.5rem;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    }
+    
+    h5 {
+      color: var(--dark);
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+    }
+    
+    .card {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 25px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      border-left: 5px solid var(--primary);
+      transition: transform 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    
+    input[type="text"] {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+      margin-bottom: 10px;
+      transition: border 0.3s;
+    }
+    
+    input[type="text"]:focus {
+      border-color: var(--primary);
+      outline: none;
+    }
+    
+    input[type="button"] {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: bold;
+      transition: all 0.3s;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    input[type="button"]:hover {
+      background-color: #5649c0;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    }
+    
+    input[type="button"]:active {
+      transform: translateY(0);
+    }
+    
+    .result-box {
+      margin-top: 15px;
+      padding: 15px;
+      border-radius: 8px;
+      background-color: var(--light);
+      font-weight: bold;
+      display: none;
+    }
+    
+    .palindrome {
+      border-left: 5px solid var(--success);
+    }
+    
+    .fibonacci {
+      border-left: 5px solid var(--warning);
+    }
+    
+    .factorial {
+      border-left: 5px solid var(--danger);
+    }
+    
+    .prime {
+      border-left: 5px solid var(--info);
+    }
+    
+    /* Animation Styles */
+    .emoji-boom {
+      position: absolute;
+      font-size: 3rem;
+      animation: boom 1s ease-out;
+      z-index: 10;
+      pointer-events: none;
+    }
+    
+    @keyframes boom {
+      0% { transform: scale(0.1); opacity: 0; }
+      50% { transform: scale(1.5); opacity: 1; }
+      100% { transform: scale(1); opacity: 0; }
+    }
+    
+    .emoji-sad {
+      position: absolute;
+      font-size: 3rem;
+      animation: sad 1.5s ease-out;
+      z-index: 10;
+      pointer-events: none;
+    }
+    
+    @keyframes sad {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+      20% { transform: translateY(-20px) rotate(10deg); opacity: 1; }
+      40% { transform: translateY(0) rotate(-10deg); }
+      60% { transform: translateY(-10px) rotate(5deg); }
+      80% { transform: translateY(0) rotate(-5deg); }
+      100% { transform: translateY(0) rotate(0deg); opacity: 0; }
+    }
+    
+    .emoji-prime {
+      position: absolute;
+      font-size: 3rem;
+      animation: prime 1.5s ease-out;
+      z-index: 10;
+      pointer-events: none;
+    }
+    
+    @keyframes prime {
+      0% { transform: scale(0.5) rotate(0deg); opacity: 0; }
+      30% { transform: scale(1.2) rotate(10deg); opacity: 1; }
+      60% { transform: scale(1) rotate(-10deg); }
+      80% { transform: scale(1) rotate(5deg); }
+      100% { transform: scale(1) rotate(0deg); opacity: 0; }
+    }
+    
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: #f00;
+      opacity: 0;
+      animation: confetti 2s ease-out;
+      z-index: 5;
+    }
+    
+    @keyframes confetti {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(200px) rotate(360deg); opacity: 0; }
+    }
+    
+    .sparkles {
+      position: absolute;
+      font-size: 1.5rem;
+      animation: sparkle 1s ease-out;
+      z-index: 5;
+      pointer-events: none;
+    }
+    
+    @keyframes sparkle {
+      0% { transform: scale(0.5); opacity: 0; }
+      50% { transform: scale(1.5); opacity: 1; }
+      100% { transform: scale(1); opacity: 0; }
+    }
+    
+    .footer {
+      text-align: center;
+      margin-top: 30px;
+      color: var(--light);
+      font-size: 0.9rem;
+    }
+    
+    @media (max-width: 600px) {
+      .container {
+        padding: 15px;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Number Magic</h1>
+    
+    <div class="card" id="palindromeCard">
+      <h5>Enter the number to check for palindrome:</h5>
+      <input type="text" id="palindromeInput" placeholder="Enter the number">
+      <input type="button" value="Check" onclick="checkNumber()">
+      <div id="palindromeResult" class="result-box palindrome"></div>
+    </div>
+    
+    <div class="card" id="primeCard">
+      <h5>Enter number to check if it's prime:</h5>
+      <input type="text" id="primeInput" placeholder="Enter the number">
+      <input type="button" value="Check" onclick="checkPrime()">
+      <div id="primeResult" class="result-box prime"></div>
+    </div>
+    
+    <div class="card">
+      <h5>Enter number for Fibonacci series:</h5>
+      <input type="text" id="fibonacciInput" placeholder="Enter the number">
+      <input type="button" value="Generate" onclick="checkNumber1()">
+      <div id="fibonacciResult" class="result-box fibonacci"></div>
+    </div>
+    
+    <div class="card">
+      <h5>Enter number for Factorial:</h5>
+      <input type="text" id="factorialInput" placeholder="Enter the number">
+      <input type="button" value="Calculate" onclick="checkNumber2()">
+      <div id="factorialResult" class="result-box factorial"></div>
+    </div>
+    
+    <div class="footer">
+      <p>Explore the magic of numbers with these simple tools</p>
+    </div>
+  </div>
+  
+  <script>
+    function createConfetti() {
+      const colors = ['#f00', '#0f0', '#00f', '#ff0', '#f0f', '#0ff'];
+      const card = document.getElementById('palindromeCard');
+      
+      for (let i = 0; i < 50; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + '%';
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.animationDelay = Math.random() * 0.5 + 's';
+        card.appendChild(confetti);
+        
+        setTimeout(() => {
+          confetti.remove();
+        }, 2000);
+      }
+    }
+    
+    function createSparkles() {
+      const card = document.getElementById('primeCard');
+      const emojis = ['✨', '🌟', '⭐', '💫'];
+      
+      for (let i = 0; i < 20; i++) {
+        const sparkle = document.createElement('div');
+        sparkle.className = 'sparkles';
+        sparkle.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+        sparkle.style.left = Math.random() * 100 + '%';
+        sparkle.style.top = Math.random() * 100 + '%';
+        sparkle.style.animationDelay = Math.random() * 0.5 + 's';
+        card.appendChild(sparkle);
+        
+        setTimeout(() => {
+          sparkle.remove();
+        }, 1000);
+      }
+    }
+    
+    function createEmoji(emoji, className, cardId) {
+      const card = document.getElementById(cardId);
+      const emojiElement = document.createElement('div');
+      emojiElement.className = className;
+      emojiElement.textContent = emoji;
+      emojiElement.style.left = Math.random() * 70 + 15 + '%';
+      emojiElement.style.top = '50%';
+      card.appendChild(emojiElement);
+      
+      setTimeout(() => {
+        emojiElement.remove();
+      }, 1500);
+    }
+    
+    function checkNumber() {
+      const input = document.getElementById('palindromeInput').value;
+      const resultBox = document.getElementById('palindromeResult');
+      
+      if (!input) {
+        resultBox.textContent = '⚠️ Please enter a number';
+        resultBox.style.display = 'block';
+        resultBox.style.backgroundColor = '#fff3e0';
+        return;
+      }
+      
+      const isPalindrome = input === input.split('').reverse().join('');
+      
+      if (isPalindrome) {
+        createEmoji('💥', 'emoji-boom', 'palindromeCard');
+        createConfetti();
+        resultBox.textContent = '💥 BOOM! "' + input + '" is a palindrome! 💥';
+        resultBox.style.display = 'block';
+        resultBox.style.backgroundColor = '#e8f5e9';
+      } else {
+        createEmoji('😢', 'emoji-sad', 'palindromeCard');
+        resultBox.textContent = '😢 Sorry, "' + input + '" is not a palindrome 😢';
+        resultBox.style.display = 'block';
+        resultBox.style.backgroundColor = '#ffebee';
+      }
+    }
+    
+    function checkPrime() {
+      const input = document.getElementById('primeInput').value;
+      const num = parseInt(input);
+      const resultBox = document.getElementById('primeResult');
+      
+      if (isNaN(num) || num < 2) {
+        resultBox.textContent = '⚠️ Please enter an integer greater than 1';
+        resultBox.style.display = 'block';
+        resultBox.style.backgroundColor = '#fff3e0';
+        return;
+      }
+      
+      let isPrime = true;
+      for (let i = 2, sqrt = Math.sqrt(num); i <= sqrt; i++) {
+        if (num % i === 0) {
+          isPrime = false;
+          break;
+        }
+      }
+      
+      if (isPrime) {
+        createEmoji('🔢', 'emoji-prime', 'primeCard');
+        createSparkles();
+        resultBox.textContent = '✨ ' + num + ' is a prime number! ✨';
+        resultBox.style.display = 'block';
+        resultBox.style.backgroundColor = '#e3f2fd';
+      } else {
+        createEmoji('❌', 'emoji-sad', 'primeCard');
+        resultBox.textContent = '❌ ' + num + ' is not a prime number';
+        resultBox.style.display = 'block';
+        resultBox.style.backgroundColor = '#ffebee';
+      }
+    }
+    
+    function checkNumber1() {
+      const input = document.getElementById('fibonacciInput').value;
+      const num = parseInt(input);
+      const resultBox = document.getElementById('fibonacciResult');
+      
+      if (isNaN(num) || num < 1) {
+        resultBox.textContent = '⚠️ Please enter a positive integer';
+        resultBox.style.display = 'block';
+        resultBox.style.backgroundColor = '#fff3e0';
+        return;
+      }
+      
+      let a = 0, b = 1, c;
+      let result = [a, b];
+      for (let i = 2; i < num; i++) {
+        c = a + b;
+        result.push(c);
+        a = b;
+        b = c;
+      }
+      
+      resultBox.textContent = 'Fibonacci series (' + num + ' terms): ' + result.join(', ');
+      resultBox.style.display = 'block';
+      resultBox.style.backgroundColor = '#fffde7';
+    }
+    
+    function checkNumber2() {
+      const input = document.getElementById('factorialInput').value;
+      const num = parseInt(input);
+      const resultBox = document.getElementById('factorialResult');
+      
+      if (isNaN(num) || num < 0) {
+        resultBox.textContent = '⚠️ Please enter a non-negative integer';
+        resultBox.style.display = 'block';
+        resultBox.style.backgroundColor = '#fff3e0';
+        return;
+      }
+      
+      let factorial = 1;
+      for (let i = 1; i <= num; i++) {
+        factorial *= i;
+      }
+      
+      resultBox.textContent = num + '! = ' + factorial;
+      resultBox.style.display = 'block';
+      resultBox.style.backgroundColor = '#ffebee';
+    }
+  </script>
+</body>
+</html>

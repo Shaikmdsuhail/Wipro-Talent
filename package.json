@@ -1,0 +1,14 @@
+{
+  "name": "demoapp",
+  "version": "1.0.0",
+  "description": "This is my first demo",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "\"Suhail\"",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
