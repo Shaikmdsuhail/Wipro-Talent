@@ -16,6 +16,10 @@ app.get('/about', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'about.html'))
 })
 
+app.get('/collections', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'collections.html'))
+})
+
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`)
 })
